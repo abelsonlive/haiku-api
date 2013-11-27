@@ -11,7 +11,11 @@ class HaikuDetector(object):
   def __init__(
     self, 
     screen_name,
-    n_pages = 10):
+    n_pages = 10,
+    debug = False):
+
+    # debug
+    self.debug = debug
 
     # number to word lookup
     self.n2w = self.gen_n2w()
@@ -163,8 +167,14 @@ class HaikuDetector(object):
   def go(self):
 
     # find some tweets
-    threaded(range(1, self.n_pages), self.get_tweets_for_page, 10, 20)
-    threaded(self.tweets, self.detect_haiku, 20, 200)
+    if self.debug:
+        for p in self.n_pages:
+            self.get_tweets_for_page(p)
+        for t in self.tweets:
+            self.detect_haiku(t)
+    else:    
+        threaded(range(1, self.n_pages), self.get_tweets_for_page, 10, 20)
+        threaded(self.tweets, self.detect_haiku, 20, 200)
 
     # if we find a haiku, post it on twitter and tumblr
     if len(self.haikus)>0:
