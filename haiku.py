@@ -168,7 +168,7 @@ class HaikuDetector(object):
 
     # find some tweets
     if self.debug:
-        for p in self.n_pages:
+        for p in range(1, self.n_pages):
             self.get_tweets_for_page(p)
         for t in self.tweets:
             self.detect_haiku(t)

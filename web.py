@@ -39,7 +39,12 @@ def get_haikus():
   # parse args  
   screen_name = request.args.get('name', None)
   n_pages = int(request.args.get('pages', 10))
-  debug = requesr.args.get('debug', False)
+  debug = request.args.get('debug', False)
+  
+  if debug=="True":
+    debug = True
+  else:
+    debug = False
   
   h = HaikuDetector(
     screen_name = screen_name,
